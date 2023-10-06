@@ -47,7 +47,10 @@ def main():
             # Translate audio bytes into English
             audio_file = io.BytesIO(st.session_state.audio_bytes)
             audio_file.name = "temp_audio_file.wav"
-            transcript = openai.Audio.translate("whisper-1", audio_file)
+            model = whisper.load_model("base")
+            transcript = model.transcribe(audio_file.name)
+            #print(result["text"])
+            #transcript = openai.Audio.translate("whisper-1", audio_file)
             st.markdown("***Translation Transcript***")
             st.text_area('transcription', transcript['text'], label_visibility='collapsed')
             if transcript['text']:
@@ -77,3 +80,15 @@ def main():
 
 if __name__ == '__main__':
     main()
+import requests
+
+API_URL = "https://api-inference.huggingface.co/models/openai/whisper-large-v2"
+headers = {"Authorization": "Bearer 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"}
+
+def query(filename):
+    with open(filename, "rb") as f:
+        data = f.read()
+    response = requests.post(API_URL, headers=headers, data=data)
+    return response.json()
+
+output = query("sample1.flac")
