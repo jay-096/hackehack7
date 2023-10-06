@@ -1,5 +1,6 @@
 import io
 import openai
+import whisper
 from gtts import gTTS
 import streamlit as st
 from io import BytesIO
@@ -24,10 +25,10 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 def main():
     st.header('Real Time Translation')
-    st.caption('Written by LPM')
+    st.caption('Written by hackehack7')
 
     # Set OpenAI API key
-    openai.api_key = st.secrets["OPENAI_API_KEY"]
+    openai.api_key = "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"
 
     audio_bytes = audio_recorder(pause_threshold=40)
     if audio_bytes:
